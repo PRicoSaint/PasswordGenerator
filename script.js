@@ -1,156 +1,137 @@
 // This is the javascript that will be run once the user asks for a new password.
-// This 1st parts clears the values, if there are any, by setting them to 0.
+// This 1st parts clears the values, if there are any, by setting them to 0. It also set up the arrays to be used to randomize the different selections.
+// Some of the special chars needed to be removed due to conflicting with the code. Causing errors.
 var pwlength = 0;
-var chartype = 0;
-var numeric = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+var numeric = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+var password = [];
 var alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "k", "i", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w" , "x", "y", "z"];
-var spchars = ["!", "#", "$", "%", "&","(",")","*","+",",","-",".","/",":",";","<","=",">","?", "@","[","\",","^","_","`","{","|","}","~"];
+var spchars = ["!", "#", "$", "%", "&","*","+","-",".","/","<","=",">","?", "@","^","_","`","~", "(", ")", "'"];
 var ALPHA = ["A", "B", "C", "D", "E", "F", "G", "H", "K", "I", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+var charactertypes = [];
+
 // Assignment Code
-// var generateBtn = document.querySelector("#generate");
-
-// // Write password to the #password input
-// function writePassword() {
-//   var password = generatePassword();
-//   var passwordText = document.querySelector("#password");
-
-//   passwordText.value = password;
-
-// }
-
-// function generatePassword(){
-//   var userChoice = window.prompt("Need a new password? Y/N");
-//   if (!userChoice) {
-//     return;
-//   }
-//   if (userChoice === "Y"){
-//     inputLength();
-//   }else if (userChoice === "N"){
-//     window.alert("Canceling processes!")
-//     return;
-//   }else {
-//     window.alert("That is an incorrect option. Please try again.")
-//     generatePassword();
-//   }
-
-// }
-
-// function inputLength(){
-//   var pwlength = window.prompt("Please choose a number between and including 8 and 128.");
-//   if (isNaN(pwlength)){
-//     window.alert("Incorrect value, please enter a number.");
-//     inputLength();
-//   } else if (pwlength < 8){
-//     window.alert("Please choose a numeric value between 8 and 128.");
-//     inputLength();
-//   }else if (pwlength > 128){
-//     window.alert("Please choose a numeric value between and including 8 and 128.");
-//     inputLength();
-//   } else if (!pwlength) {
-//     window.alert("Canceling Process!");
-//       return;
-//   } else {
-//     window.alert(pwlength + " has been submitted successfully. Now on to Char Type!");
-//     inputCharType();
-//   }
-// }
-
-// // function checkLandCtype(){
-// //   if (pwlength === 0){
-// //     inputLength();
-// //   }else if (chartype === 0){
-// //     inputCharType();
-// //   }else {
-// //     createuserpw()
-// //   }
-// // }
-
-// function inputCharType(){
-//   var chartype = window.prompt("Please choose character type(s) desired: \nlowercase, uppercase, numeric, and/or special characters.");
-//   if (isNaN(chartype)){
-//     window.alert("Incorrect value, please enter one of the following values: \nlowercase, uppercase, numeric, and/or special characters.");
-//     inputCharType();
-//   }else if (chartype === "lowercase"){
-//     var lcase =1;
-//     window.prompt("Please choose another type if desired")
-//     inputCharType();
-//   }else if (chartype === "uppercase"){
-//     var ucase = 1;
-//     window.alert("Please choose another type if desired")
-//     inputCharType();
-//   }else if (chartype === "numeric"){
-//     var num = 1;
-//     window.alert("Please choose another type if desired")
-//     inputCharType();
-//   }else if (chartype === "special characters"){
-//     var spechar = 1;
-//     window.alert("Please choose another type if desired")
-//     inputCharType();
-//   }
-//   else {
-//     window.alert("Character types" lcase + ucase + num + spechar + " have been submitted successfully.");
-//     createuserpw();
-//   }
-// }
-
-// function createuserpw(){
-//   var charactertypes = [];
-//   charactertypes.push(...lcase, ...ucase, ...num, ...spechar);
-//   for (var i = 1; i < pwlength, i++){
-//     var digittype = charactertypes[Math.floor(Math.random() * charactertypes.length)];
-//     if (digittype === lcase){
-//       randlower();
-//     }
-//   }
+var generateBtn = document.querySelector("#generate");
 
 
-// }
+// Write password to the #password input
+function writePassword() {
+  // Clears charactertypes array so that a new password can be generated with possible new user inputs chosen without having to reload page.
+  charactertypes.length = 0;
+  // Calls generatePassword function and assigns its output to variable password.
+  var password = generatePassword();
+  // Takes whats in the variable password and writes it to the location on the html id=password.
+  var passwordText = document.querySelector("#password");
 
+  passwordText.value = password;
 
-// function generatePassword(){
-//     var charactertypes = [randlower(),randupper(),randnum(),randspecchar()];
-//     for (var i = 1; i <9; i++){
-//     var digit = randctype();
-//       console.log(digit);
-//     return;
-//     }
-// }
+}
+// This is the beginning of the password generator. It begins with asking the user if they need a new password, taking them through
+// a series of prompts so that a new password is generated and displayed on screen.
 function generatePassword(){
-    // function randctype() {
-    //     var ctype = charactertypes[Math.floor(Math.random() * charactertypes.length)]
-    //     console.log(ctype);
-    // }
-
-    function randlower() {
-      var ldigit = alphabet[Math.floor(Math.random() * alphabet.length)];
-      console.log(ldigit);
-
+  var userChoice = window.confirm("Need a new password?")
+  if (userChoice){
+    inputLength();
+  }else{
+    window.alert("Canceling process!")
+    return;
+  }
+  
+  function inputLength(){
+      var length = window.prompt("Please choose a number between and including 8 and 128.");
+      console.log(length);
+      if (isNaN(length)){
+        window.alert("Incorrect value, please enter a number.");
+        inputLength();
+      } else if (length < 8){
+        window.alert("Please choose a numeric value between 8 and 128.");
+        inputLength();
+      }else if (length > 128){
+        window.alert("Please choose a numeric value between and including 8 and 128.");
+        inputLength();
+      } else if (!length) {
+        window.alert("Canceling Process!");
+          return;
+      } else {
+        window.alert( length + " has been submitted successfully. Now on to Character Types!");
+        pwlength = length;
+        console.log(pwlength);
+        inputNumeric();
+      }
     }
 
-    function randupper() {
-      var updigit = ALPHA[Math.floor(Math.random() * ALPHA.length)];
-      console.log(updigit);
+  function inputNumeric(){
+    console.log(pwlength);
+      var numericEnable = window.confirm("Would you like for the password to include numbers? (example: 0938234)")
+      if (numericEnable){
+        charactertypes.push(...numeric);
+        window.alert("Numbers will be included in the password.");
+        inputLowerCase();
+      }else {
+        window.alert("Numbers will NOT be included in the password.");
+        inputLowerCase();
+      }
+  } 
+  function inputLowerCase(){
+    console.log(charactertypes);
+    var lowerEnable = window.confirm("Would you like for the password to include lowercase letters? (example: sdfnd)")
+    if (lowerEnable){
+      charactertypes.push(...alphabet);
+      window.alert("Lower case letters will be included in the password.");
+      inputUpperCase();
+    }else{
+      window.alert("Lower case letters will NOT be included in the password");
+      inputUpperCase();
     }
-
-    function randnum() {
-      var num = numeric[Math.floor(Math.random() * numeric.length)];
-      console.log(num);
+  }
+  function inputUpperCase(){
+    console.log(charactertypes);
+    var upperEnable = window.confirm("Would you like for the password to include uppercase letters? (example: SANDGOH)");
+    if (upperEnable){
+      charactertypes.push(...ALPHA);
+      window.alert("Upper case letters will be included in the password.");
+      inputSpecialChars();
+    }else{
+      window.alert("Upper case letters will NOT be included in the password.");
+      inputSpecialChars();
     }
-
-    function randspecchar() {
-      var spec = spchars[Math.floor(Math.random() * spchars.length)];
-      console.log(spec);
-
+  }
+  function inputSpecialChars(){
+    console.log(charactertypes);
+    var specialCharEnable = window.confirm("Would you like to include special characters in your password? (example: @!#$%^)");
+    if (specialCharEnable){
+      charactertypes.push(...spchars);
+      window.alert("Special characters will be included in the password.");
+      checkSelections()
+    }else{
+      window.alert("Special characters will NOT be included in the password.");
+      checkSelections()
     }
-    randlower();
-    randupper()
-    randnum();
-    randspecchar();
+  }
+  function checkSelections(){
+    console.log(charactertypes);
+    if (charactertypes.length === 0){
+      window.alert("No selections have been made, please choose at least one, lower case, upper case, number, or special characters.")
+      inputLength();
+    }else{ 
+      createUserPW()
+    }
+  }
+  function createUserPW(){
+    console.log(charactertypes);
+      var pass = [];  
+      for (var i=0; i<pwlength; i++){
+        var ctype = charactertypes[Math.floor(Math.random() * charactertypes.length)]
+        console.log(ctype);
+        pass.push(...ctype);
+        console.log(pass);
+        pass.join("");
+        console.log(pass.join(""));
+        
+    }console.log(pass.join(""));
+    password = (pass.join(""));
+  }   console.log(password);
+ return password;
 }
 
-
-
-
-
 // Add event listener to generate button
-// generateBtn.addEventListener("click", writePassword);
+generateBtn.addEventListener("click", writePassword);
