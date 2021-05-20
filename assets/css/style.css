@@ -1,3 +1,6 @@
+/* This file is for the styling used for the Password Generator web application.*/
+/* The most complicated part of this styling is the changing of the box containing the user password from dashed to solid when being selected. */
+
 *,
 *::before,
 *::after {
