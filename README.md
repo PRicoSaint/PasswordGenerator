@@ -1,6 +1,7 @@
 # PasswordGenerator
 ## Project Description
-Ever wondered how to generate a password that is complex but still easy to create? Look no further.
+### Ever wondered how to generate a password that is complex but still easy to create? Look no further.
+
 This project is for a web app that will generate a random password using 4 different sets of criteria. It will ask the user (you) for the number of characters or length, the presence of numbers, lower and upper case letter as well as selection of special characters. It will then almost instantly generate and display a string of characters that you can copy and use as a password.
 
 ## Project Process
@@ -9,7 +10,7 @@ I began by working on the series of prompts that would obtain input from the use
 
 ## Project Link
 See link:
-
+https://pricosaint.github.io/PasswordGenerator/
 ## Project Screenshot
 See screenshot for general functionality:
 ![](./assets/images/PWGenerator.gif)
